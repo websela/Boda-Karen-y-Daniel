@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmaciones — Karen &amp; Daniel</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body style="background:var(--ivory);">
+
+<!--
+  PANEL PRIVADO — solo Karen y Daniel deberían tener este enlace.
+  Pide una clave antes de mostrar cualquier dato. Como el sitio se
+  publica como archivos estáticos (GitHub Pages), esto es una
+  protección básica, no un login real de servidor: no la uses para
+  nada más sensible que esta lista de invitados. Ver notas en
+  google-apps-script.gs.
+-->
+<div class="admin-wrap" id="login-gate">
+  <h1>Panel de Karen &amp; Daniel</h1>
+  <p class="admin-sub">Este panel es solo para ustedes dos. Escribe la clave de acceso para ver las confirmaciones.</p>
+  <div class="novios-box glass">
+    <div class="field" style="margin-bottom:14px;">
+      <label for="clave-acceso">Clave de acceso</label>
+      <input type="password" id="clave-acceso" placeholder="Escribe la clave" autocomplete="off">
+    </div>
+    <button class="btn btn--gold btn--full" id="btn-entrar">Entrar</button>
+    <p class="guest-status show" id="login-error" style="display:none;"></p>
+  </div>
+</div>
+
+<div class="admin-wrap" id="dashboard-content" style="display:none;">
+  <h1>Confirmaciones</h1>
+  <p class="admin-sub" id="admin-sub-texto">Karen &amp; Daniel · 14 de noviembre de 2026</p>
+
+  <div class="admin-stats" id="stats"></div>
+
+  <div class="novios-box glass">
+    <h2>Para Karen y Daniel</h2>
+    <p>Desde aquí pueden descargar toda la información compilada de las confirmaciones de sus invitados, lista para revisar en Excel o compartir con el lugar del evento y el catering.</p>
+    <p style="margin-top:10px;">Para enviar la invitación personalizada a cada invitado (con su nombre y su cantidad de acompañantes y niños ya cargados), usa el archivo <code>enlaces-invitados.csv</code> que te entregó Claude — cada fila trae el enlace único de esa persona o familia, listo para copiar y enviar por WhatsApp. Reemplaza <code>TU-DOMINIO-AQUI.com</code> por el dominio real donde publiques el sitio.</p>
+    <div class="admin-actions">
+      <button class="btn btn--gold" id="btn-export">Descargar todo (CSV)</button>
+      <button class="btn" id="btn-clear">Borrar datos locales</button>
+      <button class="btn" id="btn-salir">Salir</button>
+    </div>
+  </div>
+
+  <div id="table-wrap"></div>
+</div>
+
+<script src="guests-data.js"></script>
+<script src="guests-remote.js"></script>
+<script>
+/* ================================================================
+ * ACCESO PRIVADO
+ * Cambia CLAVE_ACCESO por la clave que quieras usar, y usa la MISMA
+ * clave en CLAVE_NOVIOS dentro de google-apps-script.gs — así el
+ * panel puede pedirle a Google Sheets las confirmaciones reales de
+ * todos los dispositivos, no solo las de este navegador.
+ * ================================================================ */
+const CLAVE_ACCESO = "KarenYDaniel2026";
+const SESION_KEY = "novios_acceso_ok";
+
+const loginGate = document.getElementById("login-gate");
+const dashboard = document.getElementById("dashboard-content");
+const claveInput = document.getElementById("clave-acceso");
+const loginError = document.getElementById("login-error");
+
+function entrarAlPanel(){
+  loginGate.style.display = "none";
+  dashboard.style.display = "block";
+  sessionStorage.setItem(SESION_KEY, "1");
+  render();
+}
+
+document.getElementById("btn-entrar").addEventListener("click", () => {
+  if (claveInput.value === CLAVE_ACCESO) {
+    loginError.style.display = "none";
+    entrarAlPanel();
+  } else {
+    loginError.textContent = "Clave incorrecta. Inténtalo de nuevo.";
+    loginError.style.display = "block";
+  }
+});
+
+claveInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    document.getElementById("btn-entrar").click();
+  }
+});
+
+document.getElementById("btn-salir").addEventListener("click", () => {
+  sessionStorage.removeItem(SESION_KEY);
+  dashboard.style.display = "none";
+  loginGate.style.display = "block";
+  claveInput.value = "";
+});
+
+// Si ya entraron antes en esta pestaña/sesión, no vuelve a pedir la clave.
+if (sessionStorage.getItem(SESION_KEY) === "1") {
+  entrarAlPanel();
+}
+
+/* ================================================================
+ * DATOS: confirmaciones guardadas en este navegador (respaldo) +
+ * confirmaciones reales desde Google Sheets (todas las personas,
+ * desde cualquier dispositivo) cuando APPS_SCRIPT_URL esté configurado
+ * en guests-remote.js.
+ * ================================================================ */
+const LS_KEY = "rsvps_karen_daniel";
+document.addEventListener("guest-list-updated", render);
+
+function cargarConfirmacionesLocales(){
+  return JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+}
+
+async function cargarConfirmacionesRemotas(){
+  if (typeof APPS_SCRIPT_URL === "undefined" || !APPS_SCRIPT_URL) return null;
+  try {
+    const res = await fetch(`${APPS_SCRIPT_URL}?accion=confirmaciones&clave=${encodeURIComponent(CLAVE_ACCESO)}`);
+    const datos = await res.json();
+    if (datos && datos.ok && Array.isArray(datos.confirmaciones)) {
+      return datos.confirmaciones
+        .filter((c) => c.asistencia === "si" || c.asistencia === "no")
+        .map((c) => ({
+          nombre: c.nombre,
+          asistencia: c.asistencia,
+          llevaAcompanante: !!c.nombreAcompanante,
+          nombreAcompanante: c.nombreAcompanante || "",
+          llevaNino: !!c.nombreNino,
+          nombreNino: c.nombreNino || "",
+          fechaConfirmacion: c.fechaConfirmacion || "",
+        }));
+    }
+  } catch (err) {
+    console.warn("No se pudieron cargar las confirmaciones desde Google Sheets, usando respaldo local:", err);
+  }
+  return null;
+}
+
+// Combina lo remoto (fuente de verdad, todos los dispositivos) con lo local
+// (respaldo inmediato de este navegador), sin duplicar por nombre.
+function combinarConfirmaciones(remotas, locales){
+  const base = remotas ? [...remotas] : [];
+  const nombresBase = new Set(base.map((d) => normalizar(d.nombre)));
+  locales.forEach((d) => {
+    if (!nombresBase.has(normalizar(d.nombre))) base.push(d);
+  });
+  return base;
+}
+
+function formatearFecha(iso){
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "—";
+  return d.toLocaleString("es-CO", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+}
+
+async function render(){
+  const locales = cargarConfirmacionesLocales();
+  const remotas = await cargarConfirmacionesRemotas();
+  const datos = combinarConfirmaciones(remotas, locales)
+    .sort((a, b) => new Date(b.fechaConfirmacion) - new Date(a.fechaConfirmacion));
+
+  document.getElementById("admin-sub-texto").textContent = remotas
+    ? "Karen & Daniel · 14 de noviembre de 2026 — mostrando las confirmaciones reales de Google Sheets (todos los dispositivos)."
+    : "Karen & Daniel · 14 de noviembre de 2026 — mostrando solo las confirmaciones guardadas en este navegador. Conecta Google Sheets (ver google-apps-script.gs) para ver las de todos los dispositivos.";
+
+  const total = GUEST_LIST.length;
+  const confirmados = datos.filter((d) => d.asistencia === "si").length;
+  const noAsisten = datos.filter((d) => d.asistencia === "no").length;
+  const pendientes = Math.max(total - datos.length, 0);
+  const conAcompanante = datos.filter((d) => d.llevaAcompanante).length;
+  const conNino = datos.filter((d) => d.llevaNino).length;
+
+  document.getElementById("stats").innerHTML = `
+    <div class="stat"><div class="n">${confirmados}</div><div class="l">Confirmados</div></div>
+    <div class="stat"><div class="n">${noAsisten}</div><div class="l">No asisten</div></div>
+    <div class="stat"><div class="n">${pendientes}</div><div class="l">Pendientes</div></div>
+    <div class="stat"><div class="n">${conAcompanante}</div><div class="l">Con acompañante</div></div>
+    <div class="stat"><div class="n">${conNino}</div><div class="l">Con niño(s)</div></div>
+  `;
+
+  const wrap = document.getElementById("table-wrap");
+
+  if (datos.length === 0) {
+    wrap.innerHTML = `<div class="empty-state">Todavía no hay confirmaciones registradas.</div>`;
+    return;
+  }
+
+  const filas = datos.map((d) => `
+    <tr>
+      <td>${d.nombre}</td>
+      <td><span class="tag ${d.asistencia === 'si' ? 'si' : 'no'}">${d.asistencia === 'si' ? 'Asiste' : 'No asiste'}</span></td>
+      <td>${d.llevaAcompanante ? (d.nombreAcompanante || 'Sí (sin nombre)') : '—'}</td>
+      <td>${d.llevaNino ? (d.nombreNino || 'Sí (sin nombre)') : '—'}</td>
+      <td>${formatearFecha(d.fechaConfirmacion)}</td>
+    </tr>
+  `).join("");
+
+  wrap.innerHTML = `
+    <table class="rsvp-table">
+      <thead><tr><th>Invitado</th><th>Asistencia</th><th>Acompañante</th><th>Niño(s)</th><th>Fecha de confirmación</th></tr></thead>
+      <tbody>${filas}</tbody>
+    </table>
+  `;
+}
+
+document.getElementById("btn-export").addEventListener("click", async () => {
+  const locales = cargarConfirmacionesLocales();
+  const remotas = await cargarConfirmacionesRemotas();
+  const datos = combinarConfirmaciones(remotas, locales);
+  if (datos.length === 0) { alert("No hay datos para exportar todavía."); return; }
+  const encabezado = "Nombre,Asistencia,Acompanante,NombreAcompanante,LlevaNino,NombreNino,FechaConfirmacion\n";
+  const filas = datos.map((d) => [
+    d.nombre, d.asistencia, d.llevaAcompanante ? "Si" : "No", d.nombreAcompanante || "",
+    d.llevaNino ? "Si" : "No", d.nombreNino || "", d.fechaConfirmacion
+  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const blob = new Blob([encabezado + filas], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "confirmaciones-karen-daniel.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById("btn-clear").addEventListener("click", () => {
+  if (confirm("¿Borrar las confirmaciones guardadas en ESTE navegador? Esto no afecta lo que ya está guardado en Google Sheets. Esta acción no se puede deshacer.")) {
+    localStorage.removeItem(LS_KEY);
+    render();
+  }
+});
+</script>
+</body>
+</html>

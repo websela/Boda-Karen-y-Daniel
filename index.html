@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karen &amp; Daniel — 14 de noviembre de 2026</title>
+<meta name="description" content="Invitación digital de la boda de Karen Rosero y Daniel Pérez, 14 de noviembre de 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="top-nav" aria-hidden="true">
+  <span class="monogram">K &amp; D</span>
+</nav>
+
+<!-- ============================= HERO CON VIDEO ============================= -->
+<header class="hero" id="hero">
+  <div class="hero-media">
+    <!-- Video horizontal — visible solo en escritorio -->
+    <video class="hero-video hero-video--desktop" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.jpg">
+      <source src="recursos/boda_2.mp4" type="video/mp4">
+    </video>
+    <!-- Video vertical (formato banner 9:16) — reemplaza recursos/boda_2-vertical.mp4 por tu video en retrato, visible solo en responsive/móvil -->
+    <video class="hero-video hero-video--mobile" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster-vertical.jpg">
+      <source src="recursos/Bodacel.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="hero-frame">
+    <span class="eyebrow">Nos casamos</span>
+    <h1 class="hero-names">Karen<span class="amp">&amp;</span>Daniel</h1>
+    <p class="hero-sub">14 · Noviembre · 2026</p>
+    <p class="hero-message">Lo que empezó hace 10 años,<br>hoy se convierte en para siempre.</p>
+
+    <div class="countdown" role="timer" aria-label="Tiempo restante para la boda">
+      <div class="unit"><div class="num" id="cd-dias">00</div><div class="label">Días</div></div>
+      <div class="unit"><div class="num" id="cd-horas">00</div><div class="label">Horas</div></div>
+      <div class="unit"><div class="num" id="cd-minutos">00</div><div class="label">Min</div></div>
+      <div class="unit"><div class="num" id="cd-segundos">00</div><div class="label">Seg</div></div>
+    </div>
+    <p class="countdown-note">Falta muy poco</p>
+
+    <div class="player glass" id="player">
+      <div class="player-top">
+        <div class="player-disc" id="player-disc">
+          <span class="player-disc-label">K&amp;D</span>
+        </div>
+        <div class="player-meta">
+          <span class="player-eyebrow">Sonando en la boda</span>
+          <span class="player-title" id="player-title">Nuestra canción</span>
+          <span class="player-artist" id="player-artist">Karen &amp; Daniel</span>
+        </div>
+        <div class="player-eq" id="player-eq" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <button class="player-play" id="music-btn" aria-label="Reproducir canción" type="button">
+        <svg id="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>
+        <svg id="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+      </button>
+
+      <div class="player-progress">
+        <span class="player-time" id="player-time-current">0:00</span>
+        <div class="player-bar" id="player-bar">
+          <div class="player-bar-fill" id="player-bar-fill"></div>
+          <div class="player-bar-knob" id="player-bar-knob"></div>
+        </div>
+        <span class="player-time" id="player-time-total">0:00</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>Desliza</span><span class="line"></span></div>
+</header>
+<audio id="cancion-boda" src="recursos/Camilo - La Boda (Official Video).mp3" preload="none" loop></audio>
+
+<!-- ============================= CEREMONIA & RECEPCIÓN (cápsula única) ============================= -->
+<section class="section section--tight" id="detalles">
+  <div class="container">
+    <div class="capsule glass reveal">
+      <div class="capsule-times">
+        <div class="capsule-time">
+          <span class="capsule-label">Ceremonia</span>
+          <span class="capsule-hour">5:00 p.m.</span>
+        </div>
+        <div class="capsule-sep" aria-hidden="true"></div>
+        <div class="capsule-time">
+          <span class="capsule-label">Recepción</span>
+          <span class="capsule-hour">7:00 p.m.</span>
+        </div>
+      </div>
+      <div class="capsule-place">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M12 21s7-6.6 7-11.5A7 7 0 0 0 5 9.5C5 14.4 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <span>Hostal Joshe · Santa elena, Valle del Cauca</span>
+      </div>
+      <div class="capsule-map">
+        <iframe src="https://www.google.com/maps?q=3.6602861,-76.2479446&z=17&output=embed" title="Ubicación — Hostal Joshe" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <span class="capsule-map-pin" aria-hidden="true"></span>
+      </div>
+      <a class="btn btn--gold" href="https://www.google.com/maps/place/Hostal+Joshe/@3.6602861,-76.2505195,17z/data=!3m1!4b1!4m6!3m5!1s0x8e39f7be1d5fc747:0xfc37b0cc86d98b46!8m2!3d3.6602861!4d-76.2479446!16s%2Fg%2F11clvxffvz" target="_blank" rel="noopener">Ver ubicación en Maps</a>
+    </div>
+  </div>
+</section>
+
+<div class="seal-divider reveal">
+  <div class="seal" aria-hidden="true">
+    <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="none" stroke="#A9812F" stroke-width="1"/><circle cx="32" cy="32" r="24" fill="none" stroke="#A9812F" stroke-width="1"/><text x="32" y="39" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="20" fill="#A9812F">K&amp;D</text></svg>
+  </div>
+</div>
+
+<!-- ============================= ITINERARIO ============================= -->
+<section class="section section--dark" id="itinerario">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Cronograma</span>
+      <h2>Itinerario del día</h2>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <span class="t">3:30 p.m.</span>
+        <div class="dot"></div>
+        <div><h4>Recepción de invitados</h4></div>
+      </div>
+      <div class="timeline-item">
+        <span class="t">4:00 p.m.</span>
+        <div class="dot"></div>
+        <div><h4>Inicio de ceremonia</h4><p>El momento en que decimos "sí".</p></div>
+      </div>
+      <div class="timeline-item">
+        <span class="t">5:00 p.m.</span>
+        <div class="dot"></div>
+        <div><h4>Sesión de fotos &amp; cóctel</h4></div>
+      </div>
+      <div class="timeline-item">
+        <span class="t">6:00 p.m.</span>
+        <div class="dot"></div>
+        <div><h4>Entrada de los novios</h4><p>Damos inicio a la recepción.</p></div>
+      </div>
+      <div class="timeline-item">
+        <span class="t">6:10 p.m.</span>
+        <div class="dot"></div>
+        <div><h4>Brindis</h4><p>Alzamos la copa por este nuevo comienzo.</p></div>
+      </div>
+      <div class="timeline-item">
+        <span class="t">7:00 p.m.</span>
+        <div class="dot"></div>
+        <div><h4>Cena</h4><p>La fiesta continúa a la mesa.</p></div>
+      </div>
+      <div class="timeline-item">
+        <span class="t">8:00 p.m.</span>
+        <div class="dot"></div>
+        <div><h4>Primer baile</h4><p>Nuestro primer baile como esposos.</p></div>
+      </div>
+      <div class="timeline-item">
+        <span class="t">9:00 p.m.</span>
+        <div class="dot"></div>
+        <div><h4>Fiesta</h4><p>A bailar hasta que el cuerpo aguante.</p></div>
+      </div>
+      <div class="timeline-item">
+        <span class="t">1:00 a.m.</span>
+        <div class="dot"></div>
+        <div><h4>Fin</h4><p>Gracias por celebrar con nosotros.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CARRUSEL DE FOTOS ============================= -->
+<section class="section" id="galeria">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Nuestra historia</span>
+      <h2>Galería</h2>
+    </div>
+  </div>
+
+  <div class="carousel reveal" id="carousel">
+    <div class="carousel-stage" id="carousel-stage">
+      <!-- 7 fotos verticales — reemplaza assets/foto-1.jpg ... foto-7.jpg con tus fotos reales -->
+      <figure class="carousel-card glass"><img src="recursos/imagenboda_1.png" alt="Karen y Daniel — foto 1" loading="lazy" draggable="false" onerror="this.closest('.carousel-card').classList.add('is-placeholder')"></figure>
+      <figure class="carousel-card glass"><img src="recursos/imagenboda_2.png" alt="Karen y Daniel — foto 2" loading="lazy" draggable="false" onerror="this.closest('.carousel-card').classList.add('is-placeholder')"></figure>
+      <figure class="carousel-card glass"><img src="recursos/imagenboda_3.png" alt="Karen y Daniel — foto 3" loading="lazy" draggable="false" onerror="this.closest('.carousel-card').classList.add('is-placeholder')"></figure>
+      <figure class="carousel-card glass"><img src="recursos/imagenboda_4.png" alt="Karen y Daniel — foto 4" loading="lazy" draggable="false" onerror="this.closest('.carousel-card').classList.add('is-placeholder')"></figure>
+      <figure class="carousel-card glass"><img src="recursos/imagenboda_5.png" alt="Karen y Daniel — foto 5" loading="lazy" draggable="false" onerror="this.closest('.carousel-card').classList.add('is-placeholder')"></figure>
+      <figure class="carousel-card glass"><img src="recursos/imagenboda_6.png" alt="Karen y Daniel — foto 6" loading="lazy" draggable="false" onerror="this.closest('.carousel-card').classList.add('is-placeholder')"></figure>
+      <figure class="carousel-card glass"><img src="recursos/imagenboda_7.png" alt="Karen y Daniel — foto 7" loading="lazy" draggable="false" onerror="this.closest('.carousel-card').classList.add('is-placeholder')"></figure>
+    </div>
+
+    <div class="carousel-controls">
+      <button class="carousel-arrow carousel-arrow--prev glass" id="carousel-prev" aria-label="Foto anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="carousel-dots" id="carousel-dots"></div>
+      <button class="carousel-arrow carousel-arrow--next glass" id="carousel-next" aria-label="Foto siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= COLORES PERMITIDOS / NO PERMITIDOS ============================= -->
+<section class="section section--dark dresscode" id="colores">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Código de vestimenta</span>
+      <h2>Formal &amp; elegante</h2>
+    </div>
+
+    <div class="dresscode-grid reveal">
+      <div class="dresscode-col glass">
+        <h3>Caballeros</h3>
+        <p class="dresscode-suggest">Traje formal oscuro, corbata o corbatín.</p>
+        <p class="dresscode-avoid-label">Evitar usar</p>
+        <div class="dresscode-swatches">
+          <div class="dc-swatch"><span class="dc-circle" style="background:#D9C7A3"></span><span>Beige</span></div>
+          <div class="dc-swatch"><span class="dc-circle" style="background:#9A9A9A"></span><span>Gama de grises</span></div>
+          <div class="dc-swatch"><span class="dc-circle" style="background:#1B2A4A"></span><span>Azul naval</span></div>
+        </div>
+      </div>
+
+      <div class="dresscode-col glass">
+        <h3>Damas</h3>
+        <p class="dresscode-suggest">Vestido formal, largo o midi.</p>
+        <p class="dresscode-avoid-label">Evitar usar</p>
+        <div class="dresscode-swatches">
+          <div class="dc-swatch"><span class="dc-circle" style="background:#FFFFFF;border:1px solid rgba(255,255,255,0.3)"></span><span>Blanco</span></div>
+          <div class="dc-swatch"><span class="dc-circle" style="background:#F4EFE0"></span><span>Marfil</span></div>
+          <div class="dc-swatch"><span class="dc-circle" style="background:#D9C7A3"></span><span>Beige</span></div>
+          <div class="dc-swatch"><span class="dc-circle" style="background:#6B8E5A"></span><span>Gama de verdes</span></div>
+          <div class="dc-swatch"><span class="dc-circle" style="background:#E8A7C4"></span><span>Rosado</span></div>
+          <div class="dc-swatch"><span class="dc-circle" style="background:#C1613F"></span><span>Terracota</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="palette-suggested glass reveal">
+      <p class="palette-suggested-title">Paleta sugerida</p>
+      <div class="palette-suggested-grid">
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#0F4C5C; --delay:0s"></span><span>Azul petróleo</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#5EC6E8; --delay:.15s"></span><span>Celeste</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#1F4FD8; --delay:.3s"></span><span>Rey</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#1B2A4A; --delay:.45s"></span><span>Azul noche</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#C6A0E8; --delay:.6s"></span><span>Lila</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#7A3FA0; --delay:.75s"></span><span>Morado</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#6B2E52; --delay:.9s"></span><span>Ciruela</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#C0246B; --delay:1.05s"></span><span>Magenta</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#C9962C; --delay:1.2s"></span><span>Mostaza</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#4E3524; --delay:1.35s"></span><span>Café</span></div>
+        <div class="ps-swatch"><span class="ps-circle ps-anim" style="background:#4B0E1E; --delay:1.5s"></span><span>Vino tinto oscuro</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= REGALOS ============================= -->
+<section class="section" id="regalos">
+  <div class="container">
+    <div class="gift-card glass reveal">
+      <div class="icon gift-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="7" width="18" height="14" rx="1"/><path d="M3 11h18M12 7v14M8 7a2.5 2.5 0 0 1 0-5c1.8 0 4 2.5 4 5M16 7a2.5 2.5 0 0 0 0-5c-1.8 0-4 2.5-4 5"/></svg>
+      </div>
+      <span class="eyebrow">Detalle</span>
+      <h2>Nuestro mejor regalo</h2>
+      <p>Más que objetos, soñamos con seguir construyendo juntos lo que viene. Por eso, en lugar de regalos tradicionales, agradecemos la lluvia de sobres.</p>
+    </div>
+  </div>
+</section>
+<section class="section" id="confirmar">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Tu invitación</span>
+      <h2>Acompáñanos</h2>
+    </div>
+
+    <!-- Paso 1: si no llegaste por tu enlace único (?inv=código), buscas tu invitación por nombre -->
+    <div class="invite-lookup glass reveal" id="invite-lookup">
+      <p class="invite-lookup-text">Esta invitación es personal. Escribe tu nombre exactamente como aparece en ella para abrirla.</p>
+      <div class="field" style="margin-bottom:14px;">
+        <input type="text" id="rsvp-nombre" placeholder="Tu nombre completo" autocomplete="off">
+        <div class="autocomplete-list" id="rsvp-nombre-list"></div>
+      </div>
+      <button type="button" class="btn btn--gold btn--full" id="btn-buscar-invitacion">Ver mi invitación</button>
+      <p class="guest-status" id="guest-status" role="status"></p>
+    </div>
+
+    <!-- Paso 2: tarjeta de invitación personalizada -->
+    <div class="invite-card glass" id="invite-card">
+      <div class="seal" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="none" stroke="#CFA35C" stroke-width="1"/><circle cx="32" cy="32" r="24" fill="none" stroke="#CFA35C" stroke-width="1"/><text x="32" y="39" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="20" fill="#CFA35C">K&amp;D</text></svg>
+      </div>
+      <span class="eyebrow">Tu invitación</span>
+      <h3 class="invite-greeting" id="invite-greeting">Hola</h3>
+      <p class="invite-detail" id="invite-detail"></p>
+      <button type="button" class="btn btn--gold btn--full" id="btn-confirmar-asistencia">Confirmar asistencia</button>
+      <button type="button" class="invite-card-back" id="btn-cambiar-invitado">No soy yo, buscar otro nombre</button>
+    </div>
+
+    <!-- Paso 3: formulario real (sí/no + acompañantes) -->
+    <div class="rsvp-box glass" id="rsvp-box">
+      <form class="rsvp-form" id="rsvp-form" autocomplete="off">
+        <div class="field">
+          <label>¿Asistirás?</label>
+          <div class="radio-row">
+            <label><input type="radio" name="asistencia" value="si" required> Sí, asistiré</label>
+            <label><input type="radio" name="asistencia" value="no"> No podré ir</label>
+          </div>
+        </div>
+
+        <div class="field companion-block" id="companion-block">
+          <label class="checkbox-row">
+            <input type="checkbox" id="companion-checkbox" disabled>
+            <span id="companion-checkbox-label">Llevaré acompañante</span>
+          </label>
+          <div class="companion-name-field" id="companion-name-field">
+            <div id="companion-names-container"></div>
+          </div>
+        </div>
+
+        <div class="field companion-block" id="children-block">
+          <label class="checkbox-row">
+            <input type="checkbox" id="children-checkbox" disabled>
+            <span id="children-checkbox-label">Llevaré niño(s)</span>
+          </label>
+          <div class="companion-name-field" id="children-name-field">
+            <div id="children-names-container"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn--gold btn--full">Enviar confirmación</button>
+        <p class="rsvp-note">Por favor confirma antes del 25 de octubre de 2026.</p>
+      </form>
+
+      <div class="rsvp-closed" id="rsvp-closed">
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="none" stroke="#CFA35C" stroke-width="1"/><circle cx="32" cy="32" r="24" fill="none" stroke="#CFA35C" stroke-width="1"/><text x="32" y="39" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="20" fill="#CFA35C">K&amp;D</text></svg>
+        </div>
+        <h3>El plazo de confirmación finalizó</h3>
+        <p>La fecha límite para confirmar asistencia era el 25 de octubre de 2026. Si necesitas hacer un cambio, contáctanos directamente.</p>
+      </div>
+
+      <div class="rsvp-success" id="rsvp-success">
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="none" stroke="#CFA35C" stroke-width="1"/><circle cx="32" cy="32" r="24" fill="none" stroke="#CFA35C" stroke-width="1"/><text x="32" y="39" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="20" fill="#CFA35C">K&amp;D</text></svg>
+        </div>
+        <h3>Gracias, <span id="rsvp-success-nombre"></span></h3>
+        <p id="rsvp-success-msg"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="seal-divider reveal">
+  <div class="seal" aria-hidden="true">
+    <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="none" stroke="#A9812F" stroke-width="1"/><circle cx="32" cy="32" r="24" fill="none" stroke="#A9812F" stroke-width="1"/><text x="32" y="39" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="20" fill="#A9812F">K&amp;D</text></svg>
+  </div>
+</div>
+
+<!-- ============================= RECOMENDACIONES ============================= -->
+<section class="section section--dark" id="recomendaciones">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Antes de venir</span>
+      <h2>Tips y recomendaciones</h2>
+    </div>
+
+    <div class="tips-grid reveal">
+      <div class="tip-card glass card--dark">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 20v-2a4 4 0 0 1 8 0v2M13 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM4 20v-1.5A3.5 3.5 0 0 1 7.5 15H8M6.5 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>
+        </div>
+        <h3>Niños acompañados</h3>
+        <p class="place">Si tu invitación incluye menores, agradecemos que permanezcan siempre acompañados y supervisados por un adulto, para disfrutar juntos una celebración tranquila.</p>
+      </div>
+
+      <div class="tip-card glass card--dark">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        </div>
+        <h3>Puntualidad</h3>
+        <p class="place">La ceremonia comenzará a la hora indicada. ¡Agradecemos llegar con anticipación! Una vez iniciada, no se permitirá el ingreso hasta su finalización.</p>
+      </div>
+
+      <div class="tip-card glass card--dark">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><ellipse cx="9" cy="7.5" rx="3" ry="4"/><ellipse cx="15.5" cy="16" rx="3" ry="4"/></svg>
+        </div>
+        <h3>Calzado cómodo</h3>
+        <p class="place">Al ser una celebración campestre, recomendamos elegir un calzado cómodo y adecuado para zonas verdes.</p>
+      </div>
+
+      <div class="tip-card glass card--dark">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </div>
+        <h3>Invitación personal</h3>
+        <p class="place">La invitación es personal y válida únicamente para las personas y acompañantes indicados en ella.</p>
+      </div>
+
+      <div class="tip-card glass card--dark">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        </div>
+        <h3>Cuidemos las fotos</h3>
+        <p class="place">Te agradecemos evitar levantarte, pasar al frente o bloquear la vista de nuestros fotógrafos durante la ceremonia, para capturar cada instante.</p>
+      </div>
+
+      <div class="tip-card glass card--dark">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 18V6l10 6z"/><path d="M4 6v12"/></svg>
+        </div>
+        <h3>¡Disfruta!</h3>
+        <p class="place">Baila, ríe, disfruta y celebra con nosotros. Ayúdanos a hacer de este día un recuerdo inolvidable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FOOTER ============================= -->
+<footer class="footer">
+  <h2 class="hero-names">Karen<span class="amp">&amp;</span>Daniel</h2>
+  <p>14 de noviembre de 2026 · Cali, Colombia</p>
+</footer>
+
+<script src="guests-data.js"></script>
+<script src="guests-remote.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
