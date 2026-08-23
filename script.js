@@ -4,10 +4,10 @@
 
 /* ---------------------- Fecha de la boda ---------------------- */
 // EDITA AQUÍ si cambia la hora de la ceremonia.
-const FECHA_BODA = new Date("2026-11-14T17:00:00-05:00");
+const FECHA_BODA = new Date("2026-11-14T15:30:00-05:00");
 
 // EDITA AQUÍ si cambia la fecha límite para confirmar asistencia.
-const FECHA_LIMITE_RSVP = new Date("2026-10-25T23:59:59-05:00");
+const FECHA_LIMITE_RSVP = new Date("2026-09-30T23:59:59-05:00");
 
 /* ---------------------- Cuenta regresiva ---------------------- */
 function actualizarCountdown(){

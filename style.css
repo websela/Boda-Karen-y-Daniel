@@ -3,7 +3,7 @@
    Tokens
    ========================================================= */
 :root{
-  --ivory:      oklab(69.029% -0.02671 0.03192);
+  --ivory:      #F6EFE0;
   --ivory-2:    #2e5430;
   --ink:        #10160A;
   --ink-soft:   #3C4630;
@@ -16,7 +16,8 @@
   --line:       rgba(28,23,18,0.14);
   --shadow:     0 20px 60px rgba(10,15,6,0.35);
 
-  --display:   'Cormorant Garamond', serif;
+  --display:   'Cormorant SC', serif;
+  --script:    'Pinyon Script', cursive;
   --body:      'Montserrat', sans-serif;
 
   --container: 720px;
@@ -30,6 +31,8 @@
 
   --section-dark-green: linear-gradient(165deg, #153105 0%, #1e2409 50%, #081a0a 100%);
   --edge-fade: #081a0a;
+  --ink-gradient: linear-gradient(165deg, #1c2412 0%, #10160A 55%, #060a05 100%);
+  --ivory-gradient: linear-gradient(165deg, #f3efe2 0%, #e6ded0 55%, #ddd3bf 100%);
 }
 
 /* =========================================================
@@ -76,9 +79,15 @@
 
 *{ box-sizing: border-box; }
 html{ scroll-behavior: smooth; }
+html{
+  /* Un único fondo en degradado para toda la página: al ir en <html>
+     cubre todo el alto real del documento sin repetirse ni cortarse
+     entre secciones. */
+  background: var(--ink-gradient);
+}
 body{
   margin:0;
-  background: var(--ivory);
+  background: transparent;
   color: var(--ink);
   font-family: var(--body);
   font-weight: 400;
@@ -123,8 +132,8 @@ h1, h2, h3{
 
 h2{
   font-size: clamp(2rem, 5vw, 2.75rem);
-  font-style: italic;
-  letter-spacing: 0.01em;
+  font-style: normal;
+  letter-spacing: 0.02em;
 }
 
 p{ margin: 0; }
@@ -135,16 +144,16 @@ p{ margin: 0; }
 }
 
 .section--dark{
-  background: var(--ink);
+  background: transparent;
   color: var(--ivory);
 }
 .section--dark h2, .section--dark h3{ color: var(--ivory); }
 .section--dark .eyebrow{ color: var(--gold-soft); }
 
-/* Secciones de fondo claro reemplazadas por un degradado verde oscuro,
-   con texto claro para que resalte y no haya salto de contraste entre secciones. */
+/* Todas las secciones comparten el único degradado del <html>, sin
+   fondo propio, para que no haya cortes entre una sección y otra. */
 .section:not(.section--dark){
-  background: var(--section-dark-green);
+  background: transparent;
   color: var(--ivory);
 }
 
@@ -173,7 +182,7 @@ p{ margin: 0; }
   display:flex;
   justify-content:center;
   padding: 8px 0 48px;
-  background: var(--ink);
+  background: transparent;
 }
 
 /* =========================================================
@@ -191,9 +200,9 @@ p{ margin: 0; }
 }
 .top-nav .monogram{
   pointer-events: all;
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 22px;
+  font-family: var(--script);
+  font-style: normal;
+  font-size: 26px;
   color: var(--ivory);
   letter-spacing: 0.04em;
 }
@@ -209,7 +218,7 @@ p{ margin: 0; }
   justify-content: center;
   text-align: center;
   padding: 140px 24px 80px;
-  background: var(--ink);
+  background: transparent;
   color: var(--ivory);
   overflow: hidden;
   position: relative;
@@ -260,14 +269,15 @@ p{ margin: 0; }
   mix-blend-mode: multiply;
   opacity: 0.68;
 }
-/* Une el borde inferior del video con el tono de la siguiente sección
-   con una transición corta y suave — sin crear un bloque negro grande. */
+/* Difumina el borde inferior del video hacia transparente para que se
+   funda con el degradado continuo del fondo que hay debajo, sin fijar
+   ningún color propio que pueda no coincidir y generar un corte. */
 .hero-media::after{
   content: "";
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  height: clamp(56px, 9vh, 110px);
-  background: linear-gradient(180deg, transparent 0%, transparent 30%, var(--edge-fade) 100%);
+  height: clamp(90px, 14vh, 160px);
+  background: linear-gradient(180deg, transparent 0%, rgba(6,10,5,0.85) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -287,11 +297,11 @@ p{ margin: 0; }
 .hero .eyebrow{ color: var(--gold-soft); text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
 
 .hero-names{
-  font-family: var(--display);
-  font-style: italic;
+  font-family: var(--script);
+  font-style: normal;
   font-weight: 400;
-  font-size: clamp(3.2rem, 12vw, 5.6rem);
-  line-height: 1.05;
+  font-size: clamp(3.6rem, 13vw, 6.4rem);
+  line-height: 1.15;
   margin: 18px 0 6px;
   letter-spacing: 0.01em;
   color: var(--ivory);
@@ -315,10 +325,10 @@ p{ margin: 0; }
   text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 .hero-message{
-  font-family: var(--display);
-  font-style: italic;
+  font-family: var(--script);
+  font-style: normal;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 22px;
   line-height: 1.6;
   letter-spacing: 0.01em;
   color: var(--ivory);
@@ -420,7 +430,7 @@ p{ margin: 0; }
 }
 .card h3{
   font-size: 1.6rem;
-  font-style: italic;
+  font-style: normal;
   margin-bottom: 10px;
 }
 .card .time{
@@ -495,7 +505,7 @@ p{ margin: 0; }
 }
 .capsule-hour{
   font-family: var(--display);
-  font-style: italic;
+  font-style: normal;
   font-size: 1.7rem;
   color: var(--ivory);
 }
@@ -630,7 +640,7 @@ p{ margin: 0; }
   align-items:center;
   justify-content:center;
   font-family: var(--display);
-  font-style: italic;
+  font-style: normal;
   font-size: 1.1rem;
   color: rgba(246,241,231,0.85);
   text-align:center;
@@ -732,7 +742,7 @@ p{ margin: 0; }
 .timeline-item:last-child::before{ display:none; }
 .timeline-item .t{
   font-family: var(--display);
-  font-style: italic;
+  font-style: normal;
   font-size: 1.15rem;
   color: var(--gold-soft);
   padding-top: 1px;
@@ -780,7 +790,7 @@ p{ margin: 0; }
   font-size: 13px;
   color: rgba(246,242,232,0.72);
   margin-top: 18px;
-  font-style: italic;
+  font-style: normal;
   font-family: var(--display);
 }
 
@@ -926,8 +936,9 @@ p{ margin: 0; }
 .rsvp-success.show{ display:block; }
 .rsvp-success .seal{ margin-bottom: 14px; }
 .rsvp-success h3{
-  font-style: italic;
-  font-size: 1.6rem;
+  font-family: var(--script);
+  font-style: normal;
+  font-size: 2.1rem;
   margin-bottom: 8px;
   color: var(--ivory);
 }
@@ -943,7 +954,7 @@ p{ margin: 0; }
 .rsvp-closed.show{ display:block; }
 .rsvp-closed .seal{ margin-bottom: 14px; opacity: 0.7; }
 .rsvp-closed h3{
-  font-style: italic;
+  font-style: normal;
   font-size: 1.5rem;
   margin-bottom: 10px;
   color: var(--wine);
@@ -990,9 +1001,9 @@ p{ margin: 0; }
 .invite-card .seal{ width: 52px; height: 52px; margin-bottom: 14px; }
 .invite-card .eyebrow{ display:block; margin-bottom: 10px; color: var(--gold-soft); }
 .invite-greeting{
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 1.9rem;
+  font-family: var(--script);
+  font-style: normal;
+  font-size: 2.3rem;
   color: var(--ivory);
   margin-bottom: 10px;
 }
@@ -1050,7 +1061,7 @@ p{ margin: 0; }
 .dresscode-col h3{
   color: var(--gold-soft);
   font-size: 1.4rem;
-  font-style: italic;
+  font-style: normal;
   margin-bottom: 10px;
 }
 .dresscode-suggest{
@@ -1198,7 +1209,7 @@ p{ margin: 0; }
 .footer{
   text-align:center;
   padding: 60px 24px 140px;
-  background: var(--ink);
+  background: transparent;
   color: var(--ivory);
 }
 .footer .hero-names{ font-size: clamp(1.8rem,6vw,2.4rem); margin-bottom: 6px; }
@@ -1211,9 +1222,9 @@ p{ margin: 0; }
   position: relative;
   z-index: 2;
   margin-top: 14px;
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 1rem;
+  font-family: var(--script);
+  font-style: normal;
+  font-size: 1.4rem;
   color: var(--gold-soft);
   opacity: 0.9;
 }
@@ -1241,17 +1252,20 @@ p{ margin: 0; }
   place-items:center;
   background:
     radial-gradient(circle at 50% 50%, var(--gold-soft) 0 14%, transparent 15%),
-    repeating-radial-gradient(circle at 50% 50%, #3a5626 0, #3a5626 3px, #2a3f1c 3px, #2a3f1c 6px);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(227,192,136,0.25);
+    repeating-radial-gradient(circle at 50% 50%, rgba(246,242,232,0.10) 0, rgba(246,242,232,0.10) 2px, rgba(16,22,10,0.7) 2px, rgba(16,22,10,0.7) 6px);
+  border: 1px solid rgba(255,255,255,0.14);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(227,192,136,0.25), 0 0 16px rgba(227,192,136,0.16);
   animation: disc-spin 8s linear infinite;
   animation-play-state: paused;
 }
 .player.playing .player-disc{ animation-play-state: running; }
 @keyframes disc-spin{ to{ transform: rotate(360deg); } }
 .player-disc-label{
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 8px;
+  font-family: var(--script);
+  font-style: normal;
+  font-size: 11px;
   color: var(--ink);
   transform: translateY(0);
 }
@@ -1266,12 +1280,13 @@ p{ margin: 0; }
   font-size: 9.5px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-soft);
+  opacity: 0.85;
 }
 .player-title{
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 1.15rem;
+  font-family: var(--script);
+  font-style: normal;
+  font-size: 1.35rem;
   color: var(--ivory);
   white-space: nowrap;
   overflow: hidden;
@@ -1291,7 +1306,7 @@ p{ margin: 0; }
 }
 .player-eq span{
   width: 2.5px;
-  background: var(--gold);
+  background: var(--gold-soft);
   border-radius: 2px;
   height: 4px;
   animation: eq-bounce 1s ease-in-out infinite;
@@ -1315,14 +1330,18 @@ p{ margin: 0; }
   width: 52px; height: 52px;
   margin: 18px auto 16px;
   border-radius: 50%;
-  border: none;
-  background: radial-gradient(circle at 35% 30%, var(--gold-soft), var(--gold) 70%);
-  color: var(--ink);
+  border: 1px solid rgba(255,255,255,0.24);
+  background:
+    linear-gradient(135deg, rgba(227,192,136,0.32) 0%, rgba(227,192,136,0.06) 55%, transparent 100%),
+    rgba(16,22,10,0.5);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  color: var(--gold-soft);
   cursor:pointer;
-  box-shadow: 0 6px 18px rgba(207,163,92,0.35);
-  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 20px rgba(227,192,136,0.22);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
-.player-play:hover{ transform: scale(1.06); box-shadow: 0 8px 22px rgba(207,163,92,0.5); }
+.player-play:hover{ transform: scale(1.06); box-shadow: 0 8px 22px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.24), 0 0 28px rgba(227,192,136,0.36); border-color: rgba(227,192,136,0.5); }
 .player-play:active{ transform: scale(0.96); }
 .player-play svg{ width: 18px; height: 18px; }
 
@@ -1351,7 +1370,7 @@ p{ margin: 0; }
   top:0; left:0; bottom:0;
   width: 0%;
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-soft) 100%);
+  background: linear-gradient(90deg, rgba(227,192,136,0.55) 0%, var(--gold-soft) 100%);
 }
 .player-bar-knob{
   position:absolute;
@@ -1389,7 +1408,7 @@ p{ margin: 0; }
 }
 .admin-wrap h1{
   font-size: 2.2rem;
-  font-style: italic;
+  font-style: normal;
   margin-bottom: 6px;
 }
 .admin-sub{ color: var(--ink-soft); font-size: 13.5px; margin-bottom: 32px; }
@@ -1406,7 +1425,7 @@ p{ margin: 0; }
 }
 .novios-box h2{
   font-size: 1.4rem;
-  font-style: italic;
+  font-style: normal;
   margin-bottom: 10px;
 }
 .novios-box p{
