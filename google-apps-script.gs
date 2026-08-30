@@ -7,8 +7,10 @@
  *  1. doGet(?accion=invitados)      -> le entrega al sitio web la
  *     (por defecto)                    lista de invitados (nombre +
  *                                       acompañantes adultos + niños
- *                                       permitidos) para que el
- *                                       formulario público funcione.
+ *                                       permitidos + sus nombres de
+ *                                       referencia) para que el
+ *                                       formulario público funcione y
+ *                                       precargue los nombres.
  *  2. doPost()                      -> recibe cada confirmación del
  *                                       formulario y la escribe en tu
  *                                       hoja (Confirmado, fecha,
@@ -75,7 +77,13 @@ function doGet(e) {
   return doGetInvitados(e);
 }
 
-// Lista pública de invitados (nombre + cupos), la usa el formulario del sitio.
+// Estos NO tienen tu URL de Google Sheets conectada todavía — mientras
+// APPS_SCRIPT_URL esté vacío en guests-remote.js y script.js, el sitio usa
+// tu lista fija de guests-data.js, así que este archivo por ahora no está
+// "en vivo". Igual lo dejamos listo y correcto para el día que sí lo conectes.
+
+// Lista pública de invitados (nombre + cupos + nombres de referencia), la
+// usa el formulario del sitio para precargar los campos de acompañantes/niños.
 function doGetInvitados(e) {
   try {
     const hoja = obtenerHoja();
@@ -83,6 +91,8 @@ function doGetInvitados(e) {
     const colNombre = encabezados.indexOf(COLUMNA_NOMBRE);
     const colAcompanantes = encabezados.indexOf(COLUMNA_ACOMPANANTES_PERMITIDOS);
     const colNinos = encabezados.indexOf(COLUMNA_NINOS_PERMITIDOS);
+    const colAcompanante = encabezados.indexOf(COLUMNA_NOMBRE_ACOMPANANTE);
+    const colNino = encabezados.indexOf(COLUMNA_NOMBRE_NINO);
 
     if (colNombre === -1) throw new Error("No se encontró la columna: " + COLUMNA_NOMBRE);
 
@@ -97,7 +107,9 @@ function doGetInvitados(e) {
           id: "g" + String(contador).padStart(2, "0"),
           nombre: fila[colNombre].toString().trim(),
           acompanantesPermitidos: colAcompanantes !== -1 ? (Number(fila[colAcompanantes]) || 0) : 0,
+          acompanantesNombres: colAcompanante !== -1 ? separarNombres(fila[colAcompanante]) : [],
           ninosPermitidos: colNinos !== -1 ? (Number(fila[colNinos]) || 0) : 0,
+          ninosNombres: colNino !== -1 ? separarNombres(fila[colNino]) : [],
         };
       });
 
@@ -221,6 +233,14 @@ function obtenerEncabezados(hoja) {
 function normalizar(texto) {
   return texto.toString().trim().toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+// Separa un texto con varios nombres en una lista. Acepta tanto el separador
+// que usa tu Excel/Sheet ("Nombre Uno - Nombre Dos") como el que genera el
+// sitio al guardar confirmaciones ("Nombre Uno, Nombre Dos").
+function separarNombres(texto) {
+  if (!texto) return [];
+  return texto.toString().split(/\s*[-,]\s*/).map((n) => n.trim()).filter((n) => n !== "");
 }
 
 function respuesta(obj) {
