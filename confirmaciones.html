@@ -45,6 +45,7 @@
     <p style="margin-top:10px;">Para enviar la invitación personalizada a cada invitado (con su nombre y su cantidad de acompañantes y niños ya cargados), usa el archivo <code>enlaces-invitados.csv</code> que te entregó Claude — cada fila trae el enlace único de esa persona o familia, listo para copiar y enviar por WhatsApp. Reemplaza <code>TU-DOMINIO-AQUI.com</code> por el dominio real donde publiques el sitio.</p>
     <div class="admin-actions">
       <button class="btn btn--gold" id="btn-export">Descargar todo (CSV)</button>
+      <button class="btn" id="btn-export-invitados">Descargar lista de invitados (CSV)</button>
       <button class="btn" id="btn-clear">Borrar datos locales</button>
       <button class="btn" id="btn-salir">Salir</button>
     </div>
@@ -226,6 +227,25 @@ document.getElementById("btn-export").addEventListener("click", async () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url; a.download = "confirmaciones-karen-daniel.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// Descarga la lista COMPLETA de invitados (los 54, hayan confirmado o no),
+// tal como está cargada ahora mismo (desde guests-data.js o desde Google
+// Sheets si ya lo conectaste) — útil para revisarla en Excel o compartirla
+// con el lugar del evento antes de que empiecen a llegar confirmaciones.
+document.getElementById("btn-export-invitados").addEventListener("click", () => {
+  if (!GUEST_LIST || GUEST_LIST.length === 0) { alert("La lista de invitados todavía no ha cargado."); return; }
+  const encabezado = "Nombre,Tipo,AcompanantesPermitidos,AcompanantesReferencia,NinosPermitidos,NinosReferencia\n";
+  const filas = GUEST_LIST.map((g) => [
+    g.nombre, g.tipo || "", g.acompanantesPermitidos || 0, (g.acompanantesNombres || []).join(" - "),
+    g.ninosPermitidos || 0, (g.ninosNombres || []).join(" - ")
+  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const blob = new Blob([encabezado + filas], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "lista-invitados-karen-daniel.csv";
   a.click();
   URL.revokeObjectURL(url);
 });
