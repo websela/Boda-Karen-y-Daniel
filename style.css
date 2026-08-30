@@ -921,6 +921,54 @@ p{ margin: 0; }
 }
 .companion-block.show{ display:block; }
 
+/* Fila de nombre + botón "Asiste / No asiste" por cada acompañante o niño. */
+.companion-row-inputs{
+  display:flex;
+  align-items:stretch;
+  gap:10px;
+  flex-wrap: wrap;
+}
+.companion-row-inputs .companion-name-input{
+  flex: 1 1 160px;
+  width:auto;
+}
+.companion-row-inputs .companion-name-input:disabled{
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+.companion-asiste-toggle{
+  display:flex;
+  flex-shrink:0;
+  border: 1px solid rgba(255,255,255,0.2);
+  overflow:hidden;
+}
+.companion-asiste-btn{
+  font-family: var(--body);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0 12px;
+  background: transparent;
+  border: none;
+  color: rgba(246,242,232,0.55);
+  cursor:pointer;
+  transition: background .2s ease, color .2s ease;
+  white-space: nowrap;
+}
+.companion-asiste-btn.active[data-valor="si"]{
+  background: var(--wine);
+  color: var(--ink);
+}
+.companion-asiste-btn.active[data-valor="no"]{
+  background: rgba(246,242,232,0.18);
+  color: var(--ivory);
+}
+@media (max-width: 420px){
+  .companion-row-inputs{ flex-direction: column; align-items: stretch; }
+  .companion-asiste-toggle{ width:100%; }
+  .companion-asiste-btn{ flex:1; padding: 10px 8px; text-align:center; }
+}
+
 .rsvp-note{
   font-size: 12px;
   color: rgba(246,242,232,0.62);

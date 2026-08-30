@@ -370,17 +370,25 @@ function aplicarInvitadoDesdeEnlace(){
 // Se usa tanto para el bloque de acompañantes adultos como para el de niños.
 // Si ya conocemos el nombre (viene del Excel), lo dejamos precargado para
 // que el invitado NO tenga que escribirlo — solo confirma o corrige si hace falta.
+//
+// Junto a cada nombre va un botón doble "Asiste / No asiste": es EL INVITADO
+// PRINCIPAL quien marca, persona por persona, cuáles de sus acompañantes o
+// niños finalmente van (no cada acompañante confirma por su cuenta). Por
+// defecto queda en "Asiste".
 function renderCamposNombres(contenedor, idPrefix, cantidad, etiquetaSingular, etiquetaPlural, nombresConocidos){
   contenedor.innerHTML = "";
   for (let i = 1; i <= cantidad; i++) {
     const wrap = document.createElement("div");
-    wrap.className = "field";
+    wrap.className = "field companion-row";
     wrap.style.marginTop = "12px";
     wrap.style.marginBottom = "0";
 
     const label = document.createElement("label");
     label.setAttribute("for", `${idPrefix}-${i}`);
     label.textContent = cantidad === 1 ? etiquetaSingular : `${etiquetaPlural} ${i}`;
+
+    const fila = document.createElement("div");
+    fila.className = "companion-row-inputs";
 
     const input = document.createElement("input");
     input.type = "text";
@@ -390,10 +398,50 @@ function renderCamposNombres(contenedor, idPrefix, cantidad, etiquetaSingular, e
     const conocido = nombresConocidos && nombresConocidos[i - 1];
     if (conocido) input.value = conocido;
 
+    const toggle = document.createElement("div");
+    toggle.className = "companion-asiste-toggle";
+    toggle.dataset.valor = "si";
+
+    const btnSi = document.createElement("button");
+    btnSi.type = "button";
+    btnSi.className = "companion-asiste-btn active";
+    btnSi.dataset.valor = "si";
+    btnSi.textContent = "Asiste";
+
+    const btnNo = document.createElement("button");
+    btnNo.type = "button";
+    btnNo.className = "companion-asiste-btn";
+    btnNo.dataset.valor = "no";
+    btnNo.textContent = "No asiste";
+
+    function marcar(valor){
+      toggle.dataset.valor = valor;
+      btnSi.classList.toggle("active", valor === "si");
+      btnNo.classList.toggle("active", valor === "no");
+      input.disabled = valor === "no";
+    }
+    btnSi.addEventListener("click", () => marcar("si"));
+    btnNo.addEventListener("click", () => marcar("no"));
+
+    toggle.appendChild(btnSi);
+    toggle.appendChild(btnNo);
+
+    fila.appendChild(input);
+    fila.appendChild(toggle);
+
     wrap.appendChild(label);
-    wrap.appendChild(input);
+    wrap.appendChild(fila);
     contenedor.appendChild(wrap);
   }
+}
+
+// Lee, para un contenedor de campos de acompañantes/niños, solo los nombres
+// de quienes quedaron marcados como "Asiste" (y con nombre no vacío).
+function leerNombresConfirmados(contenedor){
+  return Array.from(contenedor.querySelectorAll(".companion-row"))
+    .filter((wrap) => wrap.querySelector(".companion-asiste-toggle").dataset.valor === "si")
+    .map((wrap) => wrap.querySelector(".companion-name-input").value.trim())
+    .filter((nombre) => nombre !== "");
 }
 
 /* ---------------------- Buscador inteligente (autocompletar) ----------------------
@@ -536,15 +584,11 @@ if (rsvpForm) {
     }
 
     const nombresAcompanantes = companionCheckbox.checked
-      ? Array.from(companionNamesContainer.querySelectorAll(".companion-name-input"))
-          .map((input) => input.value.trim())
-          .filter((nombre) => nombre !== "")
+      ? leerNombresConfirmados(companionNamesContainer)
       : [];
 
     const nombresNinos = childrenCheckbox.checked
-      ? Array.from(childrenNamesContainer.querySelectorAll(".companion-name-input"))
-          .map((input) => input.value.trim())
-          .filter((nombre) => nombre !== "")
+      ? leerNombresConfirmados(childrenNamesContainer)
       : [];
 
     const registro = {
