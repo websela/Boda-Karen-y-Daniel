@@ -18,7 +18,7 @@
  * ================================================================
  */
 
-const APPS_SCRIPT_URL = ""; // <-- pega aquí tu URL de Apps Script (Web App URL)
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDe2f2NiSEDGnD6ijjpeTVDqeQ3xVCA85tPM5sTnQ4X7TpCgbMcaw1y8rfEjyrdLhc/exec"; // URL de tu Apps Script ya conectado
 
 async function actualizarListaInvitados(){
   if (!APPS_SCRIPT_URL) return;
